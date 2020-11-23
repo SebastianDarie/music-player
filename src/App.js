@@ -1,25 +1,56 @@
-import logo from './logo.svg';
-import './App.css';
+import { useRef, useState } from 'react'
+import Library from './components/Library'
+import Player from './components/Player'
+import Song from './components/Song'
+
+import chillHop from './data/data'
+
+import './styles/app.scss'
 
 function App() {
+  const [songs, setSongs] = useState(chillHop())
+  const [currSong, setCurrSong] = useState(songs[0])
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [songInfo, setSongInfo] = useState({
+    currTime: 0,
+    duration: 0,
+  })
+
+  const audioRef = useRef(null)
+
+  const timeHandler = (e) => {
+    const currTime = e.target.currentTime
+    const duration = e.target.duration
+    setSongInfo({ ...songInfo, currTime, duration })
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+      <Song currSong={currSong} />
+      <Player
+        audioRef={audioRef}
+        currSong={currSong}
+        isPlaying={isPlaying}
+        setIsPlaying={setIsPlaying}
+        songInfo={songInfo}
+        setSongInfo={setSongInfo}
+      />
+      <Library
+        audioRef={audioRef}
+        isPlaying={isPlaying}
+        songs={songs}
+        setCurrSong={setCurrSong}
+        setSongs={setSongs}
+      />
+
+      <audio
+        src={currSong.audio}
+        ref={audioRef}
+        onLoadedMetadata={timeHandler}
+        onTimeUpdate={timeHandler}
+      ></audio>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
