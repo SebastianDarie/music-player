@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faAngleLeft,
@@ -10,11 +10,34 @@ import {
 const Player = ({
   audioRef,
   currSong,
+  setCurrSong,
   isPlaying,
   setIsPlaying,
   songInfo,
   setSongInfo,
+  songs,
+  setSongs,
 }) => {
+  useEffect(() => {
+    const newSongs = songs.map((song) => {
+      if (song.id === currSong.id) {
+        return {
+          ...song,
+          active: true,
+        }
+      } else {
+        return {
+          ...song,
+          active: false,
+        }
+      }
+    })
+
+    setSongs(newSongs)
+
+    //eslint-disable-next-line
+  }, [currSong])
+
   const playHandler = () => {
     if (isPlaying) {
       audioRef.current.pause()
@@ -22,6 +45,20 @@ const Player = ({
     } else {
       audioRef.current.play()
       setIsPlaying(true)
+    }
+  }
+
+  const skipHandler = (direction) => {
+    let currIdx = songs.findIndex((song) => song.id === currSong.id)
+    if (direction === 'next') {
+      setCurrSong(songs[(currIdx + 1) % songs.length])
+    }
+    if (direction === 'back') {
+      if ((currIdx - 1) % songs.length === -1) {
+        setCurrSong(songs[songs.length - 1])
+        return
+      }
+      setCurrSong(songs[(currIdx - 1) % songs.length])
     }
   }
 
@@ -48,14 +85,24 @@ const Player = ({
         <p>{songInfo.duration ? formatTime(songInfo.duration) : '0:00'}</p>
       </div>
       <div className='play-control'>
-        <FontAwesomeIcon className='prev' size='2x' icon={faAngleLeft} />
+        <FontAwesomeIcon
+          className='prev'
+          size='2x'
+          icon={faAngleLeft}
+          onClick={() => skipHandler('back')}
+        />
         <FontAwesomeIcon
           className='play'
           size='2x'
           icon={isPlaying ? faPause : faPlay}
           onClick={playHandler}
         />
-        <FontAwesomeIcon className='next' size='2x' icon={faAngleRight} />
+        <FontAwesomeIcon
+          className='next'
+          size='2x'
+          icon={faAngleRight}
+          onClick={() => skipHandler('next')}
+        />
       </div>
     </div>
   )
