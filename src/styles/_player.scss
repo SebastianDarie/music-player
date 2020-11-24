@@ -8,15 +8,54 @@
 
 .time-control {
   display: flex;
+  align-items: center;
   width: 50%;
 
   input {
     width: 100%;
-    padding: 1rem 0rem;
+    -webkit-appearance: none;
+    background: transparent;
+    cursor: pointer;
   }
   p {
     padding: 1rem;
   }
+}
+
+input[type='range']:focus {
+  outline: none;
+}
+
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 16px;
+  width: 16px;
+}
+
+input[type='range']::-moz-slider-thumb {
+  -webkit-appearance: none;
+  background: transparent;
+  border: none;
+}
+
+.track {
+  position: relative;
+  height: 1rem;
+  width: 100%;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.animate-track {
+  background: rgb(204, 204, 204);
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translateX(0%);
+  padding: 1rem;
+  pointer-events: none;
 }
 
 .play-control {
@@ -24,9 +63,19 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  width: 30%;
+  width: 40%;
 
   svg {
     cursor: pointer;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .time-control {
+    width: 90%;
+  }
+
+  .play-control {
+    width: 80%;
   }
 }

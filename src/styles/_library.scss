@@ -1,6 +1,6 @@
 * {
   scrollbar-width: thin;
-  scrollbar-color: rgba(155, 155, 155, 0.5) transparent;
+  scrollbar-color: rgba(155, 155, 155, 0.7) transparent;
 }
 
 *::-webkit-scrollbar {
@@ -20,7 +20,7 @@
 .library {
   position: fixed;
   background: white;
-  box-shadow: 2px 2px 50px rgb(204, 204, 204);
+  box-shadow: 2px 2px 50px rgb(221, 221, 221);
   border-radius: 1rem;
   top: 0;
   left: 0;
@@ -40,13 +40,14 @@
   display: flex;
   align-items: center;
   padding: 1rem 2rem 1rem 2rem;
+  transition: all 0.75s ease-out;
   cursor: pointer;
 
   img {
     width: 30%;
   }
   &:hover {
-    background: rgb(222, 222, 255);
+    background: rgb(235, 235, 235);
   }
 }
 
@@ -69,4 +70,10 @@
 .active-library {
   transform: translateX(0%);
   opacity: 1;
+}
+
+@media screen and (max-width: 768px) {
+  .library {
+    width: 100%;
+  }
 }
