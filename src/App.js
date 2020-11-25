@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Library from './components/Library'
 import Nav from './components/Nav'
 import Player from './components/Player'
@@ -18,8 +18,17 @@ function App() {
     animationPercentage: 0,
   })
   const [libraryOpen, setLibraryOpen] = useState(false)
+  const [theme, setTheme] = useState(false)
 
   const audioRef = useRef(null)
+
+  useEffect(() => {
+    if (theme) {
+      document.body.classList.add('dark-theme')
+    } else {
+      document.body.classList.remove('dark-theme')
+    }
+  }, [theme])
 
   const timeHandler = (e) => {
     const currTime = e.target.currentTime
@@ -41,8 +50,21 @@ function App() {
   }
 
   return (
-    <div className={`App ${libraryOpen ? 'library-active' : ''}`}>
-      <Nav libraryOpen={libraryOpen} setLibraryOpen={setLibraryOpen} />
+    <div
+      className={`App ${
+        libraryOpen && theme
+          ? 'library-active dark-theme'
+          : libraryOpen && !theme
+          ? 'library-active'
+          : ''
+      }`}
+    >
+      <Nav
+        libraryOpen={libraryOpen}
+        setLibraryOpen={setLibraryOpen}
+        theme={theme}
+        setTheme={setTheme}
+      />
       <Song currSong={currSong} isPlaying={isPlaying} />
       <Player
         audioRef={audioRef}
@@ -54,6 +76,7 @@ function App() {
         setSongInfo={setSongInfo}
         songs={songs}
         setSongs={setSongs}
+        theme={theme}
       />
       <Library
         audioRef={audioRef}
@@ -62,6 +85,7 @@ function App() {
         songs={songs}
         setCurrSong={setCurrSong}
         setSongs={setSongs}
+        theme={theme}
       />
 
       <audio

@@ -5,6 +5,7 @@
 
 *::-webkit-scrollbar {
   width: 5px;
+  height: 100%;
 }
 
 *::-webkit-scrollbar-track {
@@ -19,8 +20,8 @@
 
 .library {
   position: fixed;
-  background: white;
-  box-shadow: 2px 2px 50px rgb(221, 221, 221);
+  background: $background-light;
+  box-shadow: 2px 2px 50px $box-shadow-light;
   border-radius: 1rem;
   top: 0;
   left: 0;
@@ -36,6 +37,34 @@
   }
 }
 
+.library.dark-theme {
+  background: $background-dark;
+  box-shadow: 2px 2px 50px $box-shadow-dark;
+
+  h2 {
+    color: $color-dark;
+  }
+
+  h3 {
+    color: $playing-dark;
+    font-weight: 700;
+  }
+
+  h4 {
+    color: $color-dark-acc;
+  }
+
+  .library-song {
+    &:hover {
+      background: $selected-dark;
+    }
+  }
+
+  .selected {
+    background: $selected-dark;
+  }
+}
+
 .library-song {
   display: flex;
   align-items: center;
@@ -47,7 +76,7 @@
     width: 30%;
   }
   &:hover {
-    background: rgb(235, 235, 235);
+    background: $song-hover-light;
   }
 }
 
@@ -64,7 +93,7 @@
 }
 
 .selected {
-  background: rgb(194, 208, 253);
+  background: $selected-light;
 }
 
 .active-library {

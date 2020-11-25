@@ -1,22 +1,54 @@
 nav {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   align-items: center;
   min-height: 10vh;
+
+  .sun {
+    color: $playing-dark;
+  }
+
+  .moon {
+    color: $playing-light;
+  }
+
+  .sun,
+  .moon {
+    cursor: pointer;
+  }
 
   button {
     background: transparent;
     border: none;
-    border: 2px solid rgb(65, 65, 65);
+    border: 2px solid $border-nav-light;
+    color: $color-light;
     padding: 0.5rem;
     transition: all 0.3s ease;
     cursor: pointer;
 
     &:hover {
-      background: rgb(65, 65, 65);
-      color: white;
+      background: $border-nav-light;
+      color: $color-dark;
     }
   }
+
+  .music {
+    color: $playing-light;
+  }
+}
+
+button.dark-theme {
+  border: 2px solid $border-nav-dark;
+  color: $color-dark;
+
+  &:hover {
+    background: $border-nav-dark;
+    color: $color-light;
+  }
+}
+
+.music.dark-theme {
+  color: $playing-dark;
 }
 
 @media screen and (max-width: 768px) {

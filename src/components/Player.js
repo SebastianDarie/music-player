@@ -17,6 +17,7 @@ const Player = ({
   setSongInfo,
   songs,
   setSongs,
+  theme,
 }) => {
   const activeLibraryHandler = (nextPrev) => {
     const newSongs = songs.map((song) => {
@@ -55,7 +56,7 @@ const Player = ({
     if (direction === 'back') {
       if ((currIdx - 1) % songs.length === -1) {
         await setCurrSong(songs[songs.length - 1])
-        activeLibraryHandler(songs[currIdx - 1])
+        activeLibraryHandler(songs[songs.length - 1])
         if (isPlaying) audioRef.current.play()
         return
       }
@@ -102,19 +103,19 @@ const Player = ({
       </div>
       <div className='play-control'>
         <FontAwesomeIcon
-          className='prev'
+          className={`prev ${theme ? 'dark-theme' : ''}`}
           size='2x'
           icon={faAngleLeft}
           onClick={() => skipHandler('back')}
         />
         <FontAwesomeIcon
-          className='play'
+          className={`play ${theme ? 'dark-theme' : ''}`}
           size='2x'
           icon={isPlaying ? faPause : faPlay}
           onClick={playHandler}
         />
         <FontAwesomeIcon
-          className='next'
+          className={`next ${theme ? 'dark-theme' : ''}`}
           size='2x'
           icon={faAngleRight}
           onClick={() => skipHandler('next')}

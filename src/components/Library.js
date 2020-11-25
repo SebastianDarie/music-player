@@ -8,9 +8,18 @@ const Library = ({
   songs,
   setCurrSong,
   setSongs,
+  theme,
 }) => {
   return (
-    <div className={`library ${libraryOpen ? 'active-library' : ''}`}>
+    <div
+      className={`library ${
+        libraryOpen && theme
+          ? 'active-library dark-theme'
+          : libraryOpen && !theme
+          ? 'active-library'
+          : ''
+      }`}
+    >
       <h2>Library</h2>
       <div className='library-songs'>
         {songs.map((song) => (

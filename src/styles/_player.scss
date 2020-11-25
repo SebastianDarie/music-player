@@ -63,11 +63,33 @@ input[type='range']::-moz-slider-thumb {
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  width: 40%;
+  width: 30%;
 
   svg {
     cursor: pointer;
   }
+}
+
+.prev,
+.next {
+  &:hover {
+    color: $playing-light;
+  }
+}
+
+.prev.dark-theme,
+.next.dark-theme {
+  &:hover {
+    color: $playing-dark;
+  }
+}
+
+.play {
+  color: $playing-light;
+}
+
+.play.dark-theme {
+  color: $playing-dark;
 }
 
 @media screen and (max-width: 768px) {
