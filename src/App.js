@@ -19,6 +19,7 @@ function App() {
   })
   const [libraryOpen, setLibraryOpen] = useState(false)
   const [theme, setTheme] = useState(false)
+  const [loop, setLoop] = useState(null)
 
   const audioRef = useRef(null)
 
@@ -43,9 +44,37 @@ function App() {
     setSongInfo({ ...songInfo, currTime, duration, animationPercentage })
   }
 
+  const activeLibraryHandler = (nextPrev) => {
+    const newSongs = songs.map((song) => {
+      if (song.id === nextPrev.id) {
+        return {
+          ...song,
+          active: true,
+        }
+      } else {
+        return {
+          ...song,
+          active: false,
+        }
+      }
+    })
+
+    setSongs(newSongs)
+  }
+
   const endHandler = async () => {
-    let currIdx = songs.findIndex((song) => song.id === currSong.id)
-    await setCurrSong(songs[(currIdx + 1) % songs.length])
+    if (loop === 'repeat') {
+      setSongInfo({ ...songInfo, currTime: 0 })
+    } else if (loop === 'shuffle') {
+      const random = songs[Math.floor(Math.random() * songs.length)]
+      await setCurrSong(random)
+      activeLibraryHandler(random)
+    } else {
+      let currIdx = songs.findIndex((song) => song.id === currSong.id)
+      await setCurrSong(songs[(currIdx + 1) % songs.length])
+      activeLibraryHandler(songs[(currIdx + 1) % songs.length])
+    }
+
     if (isPlaying) audioRef.current.play()
   }
 
@@ -67,15 +96,17 @@ function App() {
       />
       <Song currSong={currSong} isPlaying={isPlaying} />
       <Player
+        activeLibraryHandler={activeLibraryHandler}
         audioRef={audioRef}
         currSong={currSong}
         setCurrSong={setCurrSong}
         isPlaying={isPlaying}
         setIsPlaying={setIsPlaying}
+        loop={loop}
+        setLoop={setLoop}
         songInfo={songInfo}
         setSongInfo={setSongInfo}
         songs={songs}
-        setSongs={setSongs}
         theme={theme}
       />
       <Library

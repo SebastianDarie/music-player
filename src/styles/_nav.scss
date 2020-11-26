@@ -1,14 +1,17 @@
 nav {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-around;
   align-items: center;
   min-height: 10vh;
+  margin-bottom: 15px;
 
   .sun {
+    position: absolute;
     color: $playing-dark;
   }
 
   .moon {
+    position: absolute;
     color: $playing-light;
   }
 
@@ -53,6 +56,11 @@ button.dark-theme {
 
 @media screen and (max-width: 768px) {
   nav {
+    h1 {
+      margin-left: -15px;
+      margin-right: 20px;
+    }
+
     button {
       z-index: 10;
     }

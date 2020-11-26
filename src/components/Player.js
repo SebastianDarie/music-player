@@ -5,38 +5,24 @@ import {
   faAngleRight,
   faPause,
   faPlay,
+  faRandom,
+  faRedo,
 } from '@fortawesome/free-solid-svg-icons'
 
 const Player = ({
+  activeLibraryHandler,
   audioRef,
   currSong,
   setCurrSong,
   isPlaying,
   setIsPlaying,
+  loop,
+  setLoop,
   songInfo,
   setSongInfo,
   songs,
-  setSongs,
   theme,
 }) => {
-  const activeLibraryHandler = (nextPrev) => {
-    const newSongs = songs.map((song) => {
-      if (song.id === nextPrev.id) {
-        return {
-          ...song,
-          active: true,
-        }
-      } else {
-        return {
-          ...song,
-          active: false,
-        }
-      }
-    })
-
-    setSongs(newSongs)
-  }
-
   const playHandler = () => {
     if (isPlaying) {
       audioRef.current.pause()
@@ -67,9 +53,25 @@ const Player = ({
     if (isPlaying) audioRef.current.play()
   }
 
+  const loopHandler = (type) => {
+    if (loop === type) {
+      setLoop(null)
+    } else {
+      setLoop(type)
+    }
+  }
+
+  const hoverColor = (e) => {
+    e.target.parentNode.style.color = currSong.color[1]
+  }
+
+  const removeColor = (e) => {
+    e.target.parentNode.style.color = ''
+  }
+
   const dragHandler = (e) => {
     audioRef.current.currentTime = e.target.value
-    setSongInfo({ ...songInfo, currTime: e.target.value })
+    setSongInfo({ ...songInfo, currTime: parseInt(e.target.value) })
   }
 
   const formatTime = (time) => {
@@ -79,6 +81,7 @@ const Player = ({
   const trackAnim = {
     transform: `translateX(${songInfo.animationPercentage}%)`,
   }
+
   return (
     <div className='player'>
       <div className='time-control'>
@@ -102,6 +105,17 @@ const Player = ({
         <p>{songInfo.duration ? formatTime(songInfo.duration) : '0:00'}</p>
       </div>
       <div className='play-control'>
+        <div className='shuffle'>
+          <FontAwesomeIcon
+            size='1x'
+            icon={faRandom}
+            color={loop === 'shuffle' ? currSong.color[0] : ''}
+            onClick={() => loopHandler('shuffle')}
+            onMouseOver={hoverColor}
+            onMouseOut={removeColor}
+          />
+        </div>
+
         <FontAwesomeIcon
           className={`prev ${theme ? 'dark-theme' : ''}`}
           size='2x'
@@ -120,6 +134,16 @@ const Player = ({
           icon={faAngleRight}
           onClick={() => skipHandler('next')}
         />
+        <div className='repeat'>
+          <FontAwesomeIcon
+            size='1x'
+            icon={faRedo}
+            color={loop === 'repeat' ? currSong.color[0] : ''}
+            onClick={() => loopHandler('repeat')}
+            onMouseOver={hoverColor}
+            onMouseOut={removeColor}
+          />
+        </div>
       </div>
     </div>
   )
